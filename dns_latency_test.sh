@@ -4,8 +4,8 @@ if [ $# -lt 2 ]
 then
   echo "#### You did not provide 2 arguments with the script."
   echo "#### Run the script again first providing the ip address of the name server"
-  echo "#### and secondly the FQDN of the host to test."
-  echo "#### ie: dns_test.sh 172.16.1.1 my-server.domain.net"
+  echo "#### and secondly provide the FQDN of any host in dns."
+  echo "#### ie: dns_latency_test.sh 172.16.1.1 my-server.domain.net"
   exit 1
 fi
 
