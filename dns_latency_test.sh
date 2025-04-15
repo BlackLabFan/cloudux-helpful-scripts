@@ -14,8 +14,7 @@ then
   mkdir -p /media/avid/logs/
 fi
 
-touch /media/avid/logs/dns_test_1.log
-truncate -s 0 /media/avid/logs/dns_test_1.log
+touch /media/avid/logs/dns_test_$(date +%d-%m-%Y-%T).log
 
 nameserver01=$1
 fqdn_of_a_server=$2
