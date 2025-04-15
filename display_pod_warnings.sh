@@ -1,6 +1,6 @@
 #!/bin/bash
 # This program takes in one positional argument: the duration to test.
-# ie: 10m 1h yesterday. if no duration is supplied 2m is used.
+# ie: 10m 1h. if no duration is supplied 2m is used.
 
 if [ -n "$1" ]
 then
@@ -19,7 +19,10 @@ do
     error_flag=1
   fi
   echo "FOUND $total_entries ERRORS AND WARNINGS FOR: $i!"
-  sudo kubectl logs $i --since=my_range | grep -ie error -ie warn -A 2
+  sudo kubectl logs $i --since=my_range | awk '
+  BEGIN{do_print=0; print ""} /WARN/ || /ERR/{do_print=1} /INFO/{do_print=0; print ""} 
+  do_print==1{ print $0 } END{ print "All done!"; print "" }'
+
   echo ""
 done
 
