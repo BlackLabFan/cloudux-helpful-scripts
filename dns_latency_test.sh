@@ -9,12 +9,10 @@ then
   exit 1
 fi
 
-if ! [ -d /media/avid/logs/ ]
-then
-  mkdir -p /media/avid/logs/
-fi
-
-touch /media/avid/logs/dns_test_1.log
+date_now=$(date +%Y%m%d_%H%M%S)
+file_ext=".log"
+touch /tmp/dns_latency_test_$date_now.log
+fqfl="/tmp/dns_latency_test_$date_now$file_ext"
 
 nameserver01=$1
 fqdn_of_a_server=$2
@@ -22,6 +20,9 @@ fqdn_of_a_server=$2
 for i in {1..1000}
 do
   echo -n "$(date +%H:%M:%S)  "
-  dig @$nameserver01 $fqdn_of_a_server | grep Query | tr -d ";" | tee -a /media/avid/logs/dns_test_1.log
+  dig @$nameserver01 $fqdn_of_a_server | grep Query | tr -d ";" | tee -a $fqfl
   sleep 1
 done
+
+echo ""
+echo "Test complete. Check out the log file located at $fqfl"
