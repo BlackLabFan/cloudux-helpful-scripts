@@ -27,7 +27,7 @@ do
   fi
 done
 
-if [ error_flag -eq 0 ]
+if [ $error_flag -eq 0 ]
 then
   echo "No errors or warnings found in any pod for the $my_range duration specified."
 fi
