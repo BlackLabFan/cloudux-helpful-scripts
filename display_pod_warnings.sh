@@ -20,7 +20,8 @@ do
   fi
   echo "FOUND $total_entries ERRORS AND WARNINGS FOR: $i!"
   sudo kubectl logs $i --since=my_range | awk '
-  BEGIN{do_print=0; print ""} /WARN/ || /ERR/{do_print=1} /INFO/{do_print=0; print ""} 
+  BEGIN{do_print=0; new_line=1; print ""} /WARN/ || /ERR/{ do_print=1; new_line=1 } 
+  /INFO/ && new_line==1{ do_print=0; print ""; new_line=0 } 
   do_print==1{ print $0 } END{ print "All done!"; print "" }'
 
   echo ""
@@ -30,6 +31,3 @@ if [ error_flag -eq 0 ]
 then
   echo "No errors or warnings found in any pod for the $my_range duration specified."
 fi
-
-
-
