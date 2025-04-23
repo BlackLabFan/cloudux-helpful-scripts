@@ -28,7 +28,6 @@ do
   echo $log_entry | tee -a $fqfl
   query_time=`echo $log_entry | awk '$3 >= 30{ print "1" } 
   $3 <= 29{ print "0" }'`
-#  echo "here is the val of querytime: $query_time"
   slow_entries=$((query_time+slow_entries))
   sleep 1
 done
