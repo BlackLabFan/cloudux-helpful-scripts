@@ -13,15 +13,16 @@ error_flag=0
 
 for i in `sudo kubectl get pods | awk '{print $1}'`
 do
-  total_entries="$(sudo kubectl logs $i --since=my_range | grep -ce WARN -ce ERROR)"
+  total_entries="$(sudo kubectl logs $i --since=$my_range | grep -ce WARN -ce ERROR)"
   echo "FOUND $total_entries ERRORS AND WARNINGS FOR: $i!"
   if [ $total_entries -gt 0 ]
   then
     error_flag=1
 
     # print out all warning and error entries in the log file
-    sudo kubectl logs $i --since=my_range | awk '
-    BEGIN{do_print=0; new_line=1; print ""} /WARN/ || /ERR/{ do_print=1; new_line=1 } 
+    # may potentially need --all-containers=true
+    sudo kubectl logs $i --since=$my_range | awk '
+    BEGIN{ do_print=0; new_line=1; print "" } /WARN/ || /ERR/{ do_print=1; new_line=1 } 
     /INFO/ && new_line==1{ do_print=0; print ""; new_line=0 } 
     do_print==1{ print $0 } END{ print "All done!"; print "" }'
   fi
