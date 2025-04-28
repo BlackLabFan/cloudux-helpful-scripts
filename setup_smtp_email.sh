@@ -10,18 +10,21 @@ then
   exit 1
 fi
 
-# check to see if postfix is already installed and configured
+# check to see if postfix is already installed
 which postfix
 if [ $? -eq 0 ]
 then
-  echo "postfix is already installed!"
-  if [ -f /etc/postfix/sasl/sasl_passwd ]
+  echo "postfix is already installed! Proceeding will delete existing"
+  read -p "postfix configs. Do you want to continue? yes or no?" answer
+  answer=`echo "$answer" | grep -qi y`
+  if [ $? -eq 0 ]
   then
-    echo "This server already has an edited config"
-    echo "Manually inspect and edit /etc/postfix/main.cf"
-    echo "and /etc/postfix/sasl/sasl_passwd"
-    exit 1
-  fi
+    echo "Uninstalling postfix now. Rerun this script after reboot."
+    sleep 5
+    apt purge postfix -y && reboot
+  else
+    echo "exiting now, nothing was changed."
+    exit
 else
   echo ""
   echo "installing postfix now!"
