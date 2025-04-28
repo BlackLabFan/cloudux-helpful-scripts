@@ -25,6 +25,7 @@ then
   else
     echo "exiting now, nothing was changed."
     exit
+  fi
 else
   echo ""
   echo "installing postfix now!"
