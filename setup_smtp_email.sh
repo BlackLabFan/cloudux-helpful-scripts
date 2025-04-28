@@ -10,11 +10,18 @@ then
   exit 1
 fi
 
-# check to see if postfix is already installed
+# check to see if postfix is already installed and configured
 which postfix
 if [ $? -eq 0 ]
 then
   echo "postfix is already installed!"
+  if [ -f /etc/postfix/sasl/sasl_passwd ]
+  then
+    echo "This server already has an edited config"
+    echo "Manually inspect and edit /etc/postfix/main.cf"
+    echo "and /etc/postfix/sasl/sasl_passwd"
+    exit 1
+  fi
 else
   echo ""
   echo "installing postfix now!"
@@ -24,6 +31,7 @@ else
 fi
 
 # supply the needed gmail account info
+clear
 read -p "enter the gmail account you will use to send email: " gmail
 sleep 1 # to protect against fat fingers
 read -p "enter the app password associated with the above gmail \
@@ -35,6 +43,7 @@ postmap /etc/postfix/sasl/sasl_passwd
 chmod 0600 /etc/postfix/sasl/*
 chown root:root /etc/postfix/sasl/sasl_passwd
 
+# edit main.cf
 update_main="/etc/postfix/main.cf"
 sed -i 's/relayhost =/relayhost = [smtp.gmail.com]:587/' $update_main
 
