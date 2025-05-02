@@ -15,8 +15,9 @@ which postfix
 if [ $? -eq 0 ]
 then
   echo "postfix is already installed! Proceeding will delete existing"
-  read -p "postfix configs. Do you want to continue? yes or no? " answer
-  answer=`echo "$answer" | grep -qi y`
+  echo "postfix configs and the system will reboot."
+  read -p "Do you want to continue? yes or no? " answer
+  echo "$answer" | grep -qi y
   if [ $? -eq 0 ]
   then
     echo "Uninstalling postfix now. Rerun this script after reboot."
@@ -66,13 +67,13 @@ echo ""
 echo "Installation Complete!"
 echo ""
 read -p "Do you want to send a test email? yes or no? " answer
-  answer=`echo "$answer" | grep -qi y`
-  if [ $? -eq 0 ]
-  then
-    echo -e "Subject: Test Email\nTo: $gmail\n\nThis is an email test."\
+echo "$answer" | grep -qi y
+if [ $? -eq 0 ]
+then
+  echo -e "Subject: Test Email\nTo: $gmail\n\nThis is an email test."\
  | sendmail -F "Test Email" $gmail
-    echo "check your $gmail inbox for a message, subject line: Test Email"
+  echo "check your $gmail inbox for a message, subject line: Test Email"
 
-  else
-    "All done!"
-  fi
+else
+  "All done!"
+fi
