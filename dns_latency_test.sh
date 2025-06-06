@@ -9,6 +9,13 @@ then
   exit 1
 fi
 
+if [ $# -eq 3 ]
+then
+  cycles=$3
+else
+  cycles=1000
+fi
+
 date_now=$(date +%Y%m%d_%H%M%S)
 file_ext=".log"
 touch /tmp/dns_latency_test_$date_now.log
@@ -17,7 +24,6 @@ fqfl="/tmp/dns_latency_test_$date_now$file_ext"
 nameserver01=$1
 fqdn_of_a_server=$2
 slow_entries=0
-cycles=1000
 
 echo "Testing $nameserver01 $cycles times with hostname: \
 $fqdn_of_a_server" | tee -a $fqfl
