@@ -16,14 +16,16 @@ else
   cycles=1000
 fi
 
-date_now=$(date +%Y%m%d_%H%M%S)
-file_ext=".log"
-touch /tmp/dns_latency_test_$date_now.log
-fqfl="/tmp/dns_latency_test_$date_now$file_ext"
-
 nameserver01=$1
 fqdn_of_a_server=$2
 slow_entries=0
+
+
+
+date_now=$(date +%Y%m%d_%H%M%S)
+file_ext=".log"
+touch /tmp/dns_latency_test_$date_now_$fqdn_of_a_server.log
+fqfl="/tmp/dns_latency_test_$date_now_$fqdn_of_a_server$file_ext"
 
 echo "Testing $nameserver01 $cycles times with hostname: \
 $fqdn_of_a_server" | tee -a $fqfl
