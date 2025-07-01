@@ -24,8 +24,8 @@ slow_entries=0
 
 date_now=$(date +%Y%m%d_%H%M%S)
 file_ext=".log"
-touch /tmp/dns_latency_test_$date_now_$fqdn_of_a_server.log
-fqfl="/tmp/dns_latency_test_$date_now_$fqdn_of_a_server$file_ext"
+touch /tmp/dns_latency_test_$fqdn_of_a_server$()_$date_now.log
+fqfl="/tmp/dns_latency_test_$fqdn_of_a_server$()_$date_now$file_ext"
 
 echo "Testing $nameserver01 $cycles times with hostname: \
 $fqdn_of_a_server" | tee -a $fqfl
