@@ -30,7 +30,7 @@ $fqdn_of_a_server" | tee -a $fqfl
 
 for i in `seq 1 $cycles`
 do
-  echo -n "$(date +%H:%M:%S)  "
+  echo -n "$(date +%H:%M:%S)  " | tee -a $fqfl
   log_entry=`dig @$nameserver01 $fqdn_of_a_server | grep Query | tr -d ";"`
   echo $log_entry | tee -a $fqfl
   query_time=`echo $log_entry | awk '$3 >= 30{ print "1" } 
